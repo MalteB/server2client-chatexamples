@@ -1,0 +1,58 @@
+######################
+# OS generated files #
+######################
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+
+######################
+# Dependencies       #
+######################
+
+# node modules don't belong into the repository
+# use a package.json and 'npm install' instead
+node_modules
+
+# if for whatever reason you need a specific node module to 
+# be included, then you can un-ignore it with a !
+#!node_modules/some_module
+
+
+######################
+# Eclipse files	     #
+######################
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# TeXlipse plugin
+.texlipse

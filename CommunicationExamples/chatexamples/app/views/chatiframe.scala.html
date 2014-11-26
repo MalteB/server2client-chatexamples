@@ -1,0 +1,30 @@
+@(user: String)
+
+@chatbase(user, "Chat iframe", "Chat Forever Frame") {
+    
+	<iframe id="cometframe" src="" height="0" frameborder="0" width="100%"></iframe>
+	
+	<script type="text/javascript">
+		
+		var cometMessage = function(messages) {
+      		console.log("received: " + JSON.stringify(messages));
+			messages.map(function(message) {
+				displayMessage(message);
+			});
+		}
+		
+		document.getElementById("cometframe").src = "@controllers.routes.Application.getMessagesChunked()";
+		
+		var sendMessage = function() {
+			if (document.getElementById("message").value != "") {
+				var formData = new FormData(document.getElementById("chatmessageform"));
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "@controllers.routes.Application.postMessage().url", true);
+				xhr.overrideMimeType("text/plain");
+				xhr.send(formData);
+				document.getElementById("message").value = null;
+			}
+		}
+	</script>
+	
+}

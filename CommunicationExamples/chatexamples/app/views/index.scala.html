@@ -1,0 +1,14 @@
+
+@main("Welcome to Play") {
+
+    <h1>Server Client Communication Example: Chat</h1>
+	
+	<h2>Comet Streaming</h2>
+	<a class="chatmethod" href="@controllers.routes.Application.chatIFrame()">Forever iframe</a>
+	
+	<h2>Comet Long Polling</h2>
+	<a class="chatmethod" href="@controllers.routes.Application.chatLongPolling()">XHR Long Polling</a>
+	
+	<h2>WebSockets</h2>
+	<a class="chatmethod" href="@controllers.routes.Application.chatWebSocket()">WebSockets</a>
+}

@@ -1,0 +1,22 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+# Different chat implementation pages
+GET		/chatiframe					controllers.Application.chatIFrame()
+GET		/chatlongpolling			controllers.Application.chatLongPolling()
+GET		/chatwebsocket				controllers.Application.chatWebSocket()
+
+# Different methods to retrieve chat messages
+GET		/messageschunked			controllers.Application.getMessagesChunked()
+GET		/messageslongpolling		controllers.Application.getMessagesLongPolling(lastIndex: Integer)
+GET		/messageswebsocket			controllers.Application.getMessagesWebSocket()
+
+# REST method to post a message (user and message in body as encoded form)
+POST	/messages					controllers.Application.postMessage()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

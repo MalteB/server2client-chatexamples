@@ -1,0 +1,47 @@
+@(user: String)
+
+@chatbase(user, "Chat WebSocket", "Chat WebSocket") {
+    
+	<script type="text/javascript">
+		
+		function WebSocketChat() {
+			this.socket = new WebSocket("@controllers.routes.Application.getMessagesWebSocket().webSocketURL(request)");
+		    
+		    this.socket.onopen = function() {
+		    	clearMessageDisplay();
+		    	console.log("WebSocket opened");
+		    }
+		    
+		    this.socket.onerror = function(error) {
+				console.log("WebSocket error");
+			}
+			
+			this.socket.onmessage = function(event) {
+	      		console.log("received: " + event.data);
+				var messages = JSON.parse(event.data);
+	        	messages.map(function(message) {
+					displayMessage(message);
+				});
+			}
+			
+			this.socket.onclose = function(event) {
+				console.log("WebSocket closed. reason: " + event.reason);
+				chat = new WebSocketChat();
+			}
+		}
+	    var chat = new WebSocketChat();
+		
+		var sendMessage = function() {		
+			var chatMessage = {};
+			chatMessage.user = document.getElementById("name").value;
+			chatMessage.message = document.getElementById("message").value;
+			
+			if (chatMessage.message != "") {
+				chat.socket.send(JSON.stringify(chatMessage));
+				document.getElementById("message").value = null;
+			}
+		}
+	    
+	</script>
+	
+}

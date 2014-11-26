@@ -1,0 +1,49 @@
+@(user: String)
+
+@chatbase(user, "Chat Long Polling", "Chat XHR Long Polling") {
+    
+	<script type="text/javascript">
+		
+		var lastReceived = 0;
+	    var getMessagesRequest = function() {
+	    	return jsRoutes.controllers.Application.getMessagesLongPolling(lastReceived);
+	    }
+	
+	    // Retrieve new messages
+	    var getMessages = function() {
+	    	var xhr = new XMLHttpRequest();
+			xhr.open("GET", getMessagesRequest().url, true);
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4) {
+      				if (xhr.status === 200) {
+      					console.log("received: " + xhr.responseText);
+        				var messages = JSON.parse(xhr.responseText);
+        				messages.map(function(message) {
+							displayMessage(message);
+						});
+						lastReceived += messages.length;
+						getMessages();
+      				} else if (xhr.status == 204) {
+	                	getMessages();
+	        		} else {
+        				console.log('There was a problem with the request. ' + xhr.responseText);
+      				}
+    			}
+			}
+			xhr.send();
+	    }
+	    getMessages();
+	    
+	    var sendMessage = function() {
+			if (document.getElementById("message").value != "") {
+				var formData = new FormData(document.getElementById("chatmessageform"));
+				var xhr = new XMLHttpRequest();
+				xhr.open("POST", "@controllers.routes.Application.postMessage().url", true);
+				xhr.overrideMimeType("text/plain");
+				xhr.send(formData);		
+				document.getElementById("message").value = null;
+			}
+		}
+	</script>
+	
+}

@@ -1,0 +1,68 @@
+@(user: String, title: String, method: String)(content: Html)
+
+@main(title) {
+    
+    @helper.javascriptRouter("jsRoutes")(
+		routes.javascript.Application.getMessagesLongPolling,
+		routes.javascript.Application.postMessage
+	)
+	
+    <h1>@method</h1>
+    
+    <form id="chatmessageform" class="form-horizontal" role="form">
+    	<div class="form-group">
+	    	<label class="control-label col-sm-1" for="name">User name:</label>
+	    	<div class="col-sm-1">
+	    		<input type="text" name="user" class="form-control" id="name" placeholder="Enter name" value="@user">
+	    	</div>
+	    	<label class="control-label col-sm-1" for="message">Message:</label>
+	    	<div class="col-sm-2">
+	    		<input type="text" name="message" class="form-control" id="message" autocomplete="off" placeholder="Enter message" onkeydown="enterListener(event)">
+	    	</div>
+           	<button type="button" class="btn btn-default" onClick="sendMessage()">Send</button>
+	  	</div>
+    </form>
+    
+    <h2>Messages:</h2>
+    <div class="table-responsive" style="overflow: auto">
+    	<table class="message-container">
+    		<tbody id="messages">
+    		</tbody>
+    	</table>
+    </div>
+	
+	<script type="text/javascript">	
+		var messageDisplay = document.getElementById("messages");
+		
+		var displayMessage = function(message) {
+			var tableRow = document.createElement("tr");
+			var userTD = document.createElement("td");
+			userTD.setAttribute("class", "user");
+			userTD.innerHTML = message.user;
+			var messageTD = document.createElement("td");
+			
+			var userName = document.getElementById("name").value;
+			messageTD.setAttribute("class", (message.user == userName ? "message own" : "message"));
+
+			messageTD.innerHTML = message.message;
+			tableRow.appendChild(userTD);
+			tableRow.appendChild(messageTD);
+			messageDisplay.appendChild(tableRow);
+		}
+	
+		var enterListener = function(event) {
+			if (event.keyCode == 13) {
+				sendMessage();
+				return false;
+			}
+		}
+		
+		var clearMessageDisplay = function() {
+			while (messageDisplay.firstChild) {
+				messageDisplay.removeChild(messageDisplay.firstChild);
+			}
+		}
+	</script>
+	
+	@content
+}
